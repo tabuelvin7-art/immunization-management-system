@@ -28,8 +28,7 @@ router.route('/')
   .post([
     body('name').notEmpty().withMessage('Name is required'),
     body('dateOfBirth').isISO8601().withMessage('Valid date of birth is required'),
-    body('gender').isIn(['Male', 'Female', 'Other']).withMessage('Invalid gender'),
-    body('contactNumber').notEmpty().withMessage('Contact number is required')
+    body('gender').isIn(['Male', 'Female', 'Other']).withMessage('Invalid gender')
   ], createPatient);
 
 router.route('/:id')
