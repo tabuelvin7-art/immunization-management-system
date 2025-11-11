@@ -17,7 +17,7 @@ const patientSchema = new mongoose.Schema({
   },
   contactNumber: {
     type: String,
-    required: [true, 'Contact number is required']
+    required: false
   },
   email: {
     type: String,
