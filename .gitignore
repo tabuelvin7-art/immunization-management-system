@@ -73,9 +73,9 @@ jspm_packages/
 .nuxt
 dist
 
-# Gatsby files
+# Gatsby files (not React - we need frontend/public!)
 .cache/
-public
+# public
 
 # Storybook build outputs
 .out
