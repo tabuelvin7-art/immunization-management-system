@@ -24,8 +24,9 @@ import GenerateParentCode from './pages/GenerateParentCode';
 import VerificationCodes from './pages/VerificationCodes';
 import RoleGuard from './components/RoleGuard';
 import AccessDenied from './components/AccessDenied';
-import './App.css';
 import DashboardRouter from './components/DashboardRouter';
+import UserProfile from './pages/UserProfile';
+import './App.css';
 
 function App() {
   return (
@@ -60,6 +61,9 @@ function App() {
               <Route path="/parent/notifications" element={<PrivateRoute><ParentNotifications /></PrivateRoute>} />
               <Route path="/parent/schedule" element={<PrivateRoute><ParentSchedule /></PrivateRoute>} />
               <Route path="/parent/link-child" element={<PrivateRoute><LinkChild /></PrivateRoute>} />
+              
+              {/* User Profile Route */}
+              <Route path="/profile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
             </Routes>
           </div>
           <ToastContainer position="top-right" autoClose={3000} />

@@ -19,7 +19,8 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          Immunization System
+          <span className="logo-icon">💉</span>
+          <span className="logo-text">Immunization System</span>
         </Link>
         <ul className="navbar-menu">
           <li><Link to="/">Dashboard</Link></li>
@@ -49,7 +50,13 @@ const Navbar = () => {
           )}
         </ul>
         <div className="navbar-user">
-          <span>{user.name} ({user.role})</span>
+          <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <span style={{ cursor: 'pointer', transition: 'opacity 0.3s' }} 
+                  onMouseEnter={(e) => e.target.style.opacity = '0.8'}
+                  onMouseLeave={(e) => e.target.style.opacity = '1'}>
+              {user.name} ({user.role})
+            </span>
+          </Link>
           <button onClick={handleLogout} className="btn-logout">Logout</button>
         </div>
       </div>
