@@ -78,14 +78,14 @@ const ImmunizationList = () => {
             <tbody>
               {immunizations.map((imm) => (
                 <tr key={imm._id}>
-                  <td>
+                  <td data-label="Patient">
                     <Link to={`/patients/${imm.patient._id}`}>{imm.patient.name}</Link>
                   </td>
-                  <td>{imm.vaccineName}</td>
-                  <td>{new Date(imm.dateAdministered).toLocaleDateString()}</td>
-                  <td>{imm.nextDueDate ? new Date(imm.nextDueDate).toLocaleDateString() : 'N/A'}</td>
-                  <td>{imm.status}</td>
-                  <td>
+                  <td data-label="Vaccine">{imm.vaccineName}</td>
+                  <td data-label="Date Administered">{new Date(imm.dateAdministered).toLocaleDateString()}</td>
+                  <td data-label="Next Due Date">{imm.nextDueDate ? new Date(imm.nextDueDate).toLocaleDateString() : 'N/A'}</td>
+                  <td data-label="Status">{imm.status}</td>
+                  <td data-label="Actions">
                     {user && ['Doctor', 'Nurse'].includes(user.role) && (
                       <>
                         <Link to={`/immunizations/edit/${imm._id}`} className="btn btn-primary" style={{ marginRight: '0.5rem' }}>

@@ -84,11 +84,11 @@ const PatientList = () => {
             <tbody>
               {patients.map((patient) => (
                 <tr key={patient._id}>
-                  <td>{patient.name}</td>
-                  <td>{new Date(patient.dateOfBirth).toLocaleDateString()}</td>
-                  <td>{patient.gender}</td>
-                  <td>{patient.contactNumber}</td>
-                  <td>
+                  <td data-label="Name">{patient.name}</td>
+                  <td data-label="Date of Birth">{new Date(patient.dateOfBirth).toLocaleDateString()}</td>
+                  <td data-label="Gender">{patient.gender}</td>
+                  <td data-label="Contact">{patient.contactNumber}</td>
+                  <td data-label="Actions">
                     <Link to={`/patients/${patient._id}`} className="btn btn-secondary" style={{ marginRight: '0.5rem' }}>
                       View
                     </Link>

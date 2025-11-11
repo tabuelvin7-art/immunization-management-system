@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import './mobile.css';
+import './pages/responsive-pages.css';
 import App from './App';
 import GlobalBackground from './components/GlobalBackground';
 

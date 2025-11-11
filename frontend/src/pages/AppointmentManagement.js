@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import { toast } from 'react-toastify';
+import './AppointmentManagement.css';
 
 const AppointmentManagement = () => {
   const [appointments, setAppointments] = useState([]);
@@ -108,94 +109,94 @@ const AppointmentManagement = () => {
 
       {appointments.length > 0 ? (
         <div className="card">
-          <table>
-            <thead>
-              <tr>
-                <th>Patient</th>
-                <th>Parent</th>
-                <th>Vaccine</th>
-                <th>Preferred Date</th>
-                <th>Days Until</th>
-                <th>Status</th>
-                <th>Notes</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {appointments.map((appointment) => {
-                const daysUntil = getDaysUntil(appointment.preferredDate);
-                return (
-                  <tr key={appointment._id}>
-                    <td>
-                      <strong>{appointment.patient.name}</strong>
-                      <br />
+          <div className="appointments-list">
+            {appointments.map((appointment) => {
+              const daysUntil = getDaysUntil(appointment.preferredDate);
+              return (
+                <div key={appointment._id} className="appointment-card">
+                  <div className="appointment-header">
+                    <div>
+                      <h3 style={{ margin: 0, fontSize: '1.1rem', color: '#2c3e50' }}>
+                        {appointment.patient.name}
+                      </h3>
                       <small style={{ color: '#7f8c8d' }}>
                         {appointment.patient.gender}, {new Date().getFullYear() - new Date(appointment.patient.dateOfBirth).getFullYear()} years
                       </small>
-                    </td>
-                    <td>
-                      {appointment.parentUser.name}
-                      <br />
-                      <small style={{ color: '#7f8c8d' }}>{appointment.parentUser.email}</small>
-                    </td>
-                    <td>{appointment.vaccineName}</td>
-                    <td>{new Date(appointment.preferredDate).toLocaleDateString()}</td>
-                    <td style={{ 
-                      color: daysUntil < 0 ? '#e74c3c' : daysUntil <= 7 ? '#f39c12' : '#27ae60',
-                      fontWeight: daysUntil <= 7 ? 'bold' : 'normal'
-                    }}>
-                      {daysUntil < 0 ? `${Math.abs(daysUntil)} days ago` : 
-                       daysUntil === 0 ? 'Today' : 
-                       `${daysUntil} days`}
-                    </td>
-                    <td>
-                      <span className={`badge ${getStatusBadgeClass(appointment.status)}`}>
-                        {appointment.status}
+                    </div>
+                    <span className={`badge ${getStatusBadgeClass(appointment.status)}`}>
+                      {appointment.status}
+                    </span>
+                  </div>
+
+                  <div className="appointment-details">
+                    <div className="detail-row">
+                      <span className="detail-label">Parent:</span>
+                      <span className="detail-value">
+                        {appointment.parentUser.name}
+                        <br />
+                        <small style={{ color: '#7f8c8d' }}>{appointment.parentUser.email}</small>
                       </span>
-                    </td>
-                    <td>
-                      {appointment.notes ? (
-                        <small>{appointment.notes}</small>
-                      ) : (
-                        <small style={{ color: '#7f8c8d' }}>No notes</small>
-                      )}
-                    </td>
-                    <td>
-                      <div style={{ display: 'flex', gap: '0.5rem', flexDirection: 'column' }}>
-                        {appointment.status === 'Pending' && (
-                          <>
-                            <button
-                              className="btn btn-success"
-                              style={{ fontSize: '0.8rem', padding: '0.3rem 0.6rem' }}
-                              onClick={() => handleStatusUpdate(appointment._id, 'Confirmed')}
-                            >
-                              Confirm
-                            </button>
-                            <button
-                              className="btn btn-danger"
-                              style={{ fontSize: '0.8rem', padding: '0.3rem 0.6rem' }}
-                              onClick={() => handleStatusUpdate(appointment._id, 'Cancelled')}
-                            >
-                              Cancel
-                            </button>
-                          </>
-                        )}
-                        {appointment.status === 'Confirmed' && (
-                          <button
-                            className="btn btn-primary"
-                            style={{ fontSize: '0.8rem', padding: '0.3rem 0.6rem' }}
-                            onClick={() => handleStatusUpdate(appointment._id, 'Completed')}
-                          >
-                            Mark Complete
-                          </button>
-                        )}
+                    </div>
+
+                    <div className="detail-row">
+                      <span className="detail-label">Vaccine:</span>
+                      <span className="detail-value">{appointment.vaccineName}</span>
+                    </div>
+
+                    <div className="detail-row">
+                      <span className="detail-label">Date:</span>
+                      <span className="detail-value">
+                        {new Date(appointment.preferredDate).toLocaleDateString()}
+                        <span style={{ 
+                          marginLeft: '0.5rem',
+                          color: daysUntil < 0 ? '#e74c3c' : daysUntil <= 7 ? '#f39c12' : '#27ae60',
+                          fontWeight: daysUntil <= 7 ? 'bold' : 'normal'
+                        }}>
+                          ({daysUntil < 0 ? `${Math.abs(daysUntil)} days ago` : 
+                           daysUntil === 0 ? 'Today' : 
+                           `in ${daysUntil} days`})
+                        </span>
+                      </span>
+                    </div>
+
+                    {appointment.notes && (
+                      <div className="detail-row">
+                        <span className="detail-label">Notes:</span>
+                        <span className="detail-value">{appointment.notes}</span>
                       </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                    )}
+                  </div>
+
+                  <div className="appointment-actions">
+                    {appointment.status === 'Pending' && (
+                      <>
+                        <button
+                          className="btn btn-success"
+                          onClick={() => handleStatusUpdate(appointment._id, 'Confirmed')}
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => handleStatusUpdate(appointment._id, 'Cancelled')}
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    )}
+                    {appointment.status === 'Confirmed' && (
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => handleStatusUpdate(appointment._id, 'Completed')}
+                      >
+                        Mark Complete
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       ) : (
         <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>

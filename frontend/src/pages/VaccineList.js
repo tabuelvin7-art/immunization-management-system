@@ -70,12 +70,12 @@ const VaccineList = () => {
                 <tr key={vaccine._id} style={{ 
                   backgroundColor: isExpired(vaccine) ? '#fadbd8' : isLowStock(vaccine) ? '#fcf3cf' : 'transparent' 
                 }}>
-                  <td>{vaccine.name}</td>
-                  <td>{vaccine.manufacturer}</td>
-                  <td>{vaccine.quantity}</td>
-                  <td>{vaccine.batchNumber}</td>
-                  <td>{new Date(vaccine.expiryDate).toLocaleDateString()}</td>
-                  <td>
+                  <td data-label="Name">{vaccine.name}</td>
+                  <td data-label="Manufacturer">{vaccine.manufacturer}</td>
+                  <td data-label="Quantity">{vaccine.quantity}</td>
+                  <td data-label="Batch Number">{vaccine.batchNumber}</td>
+                  <td data-label="Expiry Date">{new Date(vaccine.expiryDate).toLocaleDateString()}</td>
+                  <td data-label="Status">
                     {isExpired(vaccine) ? (
                       <span style={{ color: '#e74c3c', fontWeight: 'bold' }}>Expired</span>
                     ) : isLowStock(vaccine) ? (
@@ -84,7 +84,7 @@ const VaccineList = () => {
                       <span style={{ color: '#27ae60' }}>In Stock</span>
                     )}
                   </td>
-                  <td>
+                  <td data-label="Actions">
                     <Link to={`/vaccines/edit/${vaccine._id}`} className="btn btn-primary" style={{ marginRight: '0.5rem' }}>
                       Edit
                     </Link>
