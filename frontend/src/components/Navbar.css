@@ -14,11 +14,12 @@
 .navbar-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: transparent;
+  width: 100%;
 }
 
 .navbar-logo {
@@ -185,7 +186,9 @@
 }
 
 .navbar-header {
-  display: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .navbar-toggle {
@@ -196,8 +199,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  flex: 1;
   gap: 2rem;
+  margin-left: 2rem;
 }
 
 @media (max-width: 768px) {
