@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../services/api';
 import { toast } from 'react-toastify';
@@ -16,13 +16,7 @@ const VaccineForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  useEffect(() => {
-    if (id) {
-      fetchVaccine();
-    }
-  }, [id]);
-
-  const fetchVaccine = async () => {
+  const fetchVaccine = useCallback(async () => {
     try {
       const { data } = await api.get(`/vaccines/${id}`);
       const vaccine = data.data;
@@ -33,7 +27,13 @@ const VaccineForm = () => {
     } catch (error) {
       toast.error('Failed to load vaccine');
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      fetchVaccine();
+    }
+  }, [id, fetchVaccine]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

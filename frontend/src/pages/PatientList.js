@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { toast } from 'react-toastify';
@@ -9,11 +9,7 @@ const PatientList = () => {
   const [search, setSearch] = useState('');
   const [gender, setGender] = useState('');
 
-  useEffect(() => {
-    fetchPatients();
-  }, [search, gender]);
-
-  const fetchPatients = async () => {
+  const fetchPatients = useCallback(async () => {
     try {
       const params = {};
       if (search) params.search = search;
@@ -26,7 +22,11 @@ const PatientList = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [search, gender]);
+
+  useEffect(() => {
+    fetchPatients();
+  }, [fetchPatients]);
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this patient?')) {
