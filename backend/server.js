@@ -7,10 +7,10 @@ const { scheduleNotifications } = require('./utils/notificationScheduler');
 // Load env vars
 dotenv.config();
 
-// Connect to database
-connectDB();
-
 const app = express();
+
+// Connect to database (async for serverless)
+connectDB().catch(err => console.error('Database connection failed:', err));
 
 // Middleware
 app.use(cors({
