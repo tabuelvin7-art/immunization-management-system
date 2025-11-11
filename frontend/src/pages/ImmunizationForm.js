@@ -137,10 +137,10 @@ const ImmunizationForm = () => {
           <div className="form-group">
             <label>💉 Select Vaccine *</label>
             <select onChange={handleVaccineSelect} required>
-              <option value="">-- Select a vaccine --</option>
+              <option value="">Select a vaccine</option>
               {vaccines.map(v => (
                 <option key={v._id} value={v._id}>
-                  {v.name} - {v.manufacturer} (Stock: {v.stockQuantity})
+                  {v.name} - {v.manufacturer} (Stock: {v.quantity})
                 </option>
               ))}
             </select>
@@ -198,7 +198,13 @@ const ImmunizationForm = () => {
 
           <div className="form-group">
             <label>Next Due Date</label>
-            <input type="date" name="nextDueDate" value={formData.nextDueDate} onChange={handleChange} />
+            <input 
+              type="date" 
+              name="nextDueDate" 
+              value={formData.nextDueDate} 
+              onChange={handleChange}
+              min={new Date().toISOString().split('T')[0]}
+            />
           </div>
 
           <div className="form-group">
