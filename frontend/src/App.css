@@ -4,17 +4,20 @@
 }
 
 .main-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.784);
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(15px);
   border-radius: 16px;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   animation: fadeInUp 0.6s ease-out;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  min-height: calc(100vh - 120px);
 }
 
 @keyframes fadeInUp {
@@ -33,18 +36,21 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #f8f9fa;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+  gap: 1rem;
 }
 
 .page-header h1 {
   color: #2c3e50;
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 600;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  margin: 0;
+  flex: 1;
 }
 
 .btn {
@@ -299,31 +305,79 @@
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .main-content {
-    padding: 1rem;
-    margin: 0.5rem;
+    padding: 1.25rem;
+    margin: 0.75rem 0.5rem;
     border-radius: 12px;
+    margin-top: 1rem;
+    min-height: calc(100vh - 100px);
   }
 
   .page-header {
     flex-direction: column;
     gap: 1rem;
-    align-items: flex-start;
+    align-items: stretch;
+    margin-bottom: 1.5rem;
   }
 
   .page-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+  }
+
+  .page-header .btn {
+    width: 100%;
   }
 
   .card {
     padding: 1.25rem;
-    border-radius: 10px;
+    border-radius: 12px;
+    margin-bottom: 1.25rem;
   }
 
   .btn {
-    padding: 0.6rem 1.2rem;
+    padding: 0.7rem 1.2rem;
+    font-size: 0.95rem;
+    min-height: 44px;
+  }
+
+  .data-table {
     font-size: 0.9rem;
-    width: 100%;
-    justify-content: center;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 0.85rem 0.6rem;
+  }
+
+  /* Make tables scrollable on mobile */
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -1.25rem;
+    padding: 0 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    margin: 0.5rem 0.25rem;
+    padding: 1rem;
+  }
+
+  .page-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .btn {
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
   }
 
   .data-table {
@@ -332,42 +386,7 @@
 
   .data-table th,
   .data-table td {
-    padding: 0.75rem 0.5rem;
-  }
-
-  /* Make tables scrollable on mobile */
-  .table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-@media (max-width: 480px) {
-  .main-content {
-    margin: 0.25rem;
-    padding: 0.75rem;
-  }
-
-  .page-header h1 {
-    font-size: 1.3rem;
-  }
-
-  .card {
-    padding: 1rem;
-  }
-
-  .btn {
-    padding: 0.65rem 1rem;
-    font-size: 0.9rem;
-  }
-
-  .data-table {
-    font-size: 0.8rem;
-  }
-
-  .data-table th,
-  .data-table td {
-    padding: 0.6rem 0.4rem;
+    padding: 0.7rem 0.5rem;
   }
 
   .form-group input,
