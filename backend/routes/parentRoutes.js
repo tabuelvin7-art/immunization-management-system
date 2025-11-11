@@ -1,6 +1,7 @@
 const express = require('express');
 const {
   getMyChildren,
+  getChildDetails,
   getChildImmunizations,
   getChildUpcomingImmunizations,
   getParentDashboard,
@@ -18,6 +19,7 @@ router.get('/children', getMyChildren);
 router.post('/link-child', linkChild);
 router.get('/children/:childId/immunizations', getChildImmunizations);
 router.get('/children/:childId/upcoming', getChildUpcomingImmunizations);
+router.get('/children/:childId', getChildDetails);
 
 // Debug endpoint to check verification codes (development only)
 router.get('/debug/codes/:patientId', async (req, res) => {

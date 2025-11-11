@@ -43,7 +43,10 @@ const Navbar = () => {
                 <li><Link to="/vaccines">Vaccines</Link></li>
               )}
               {['Admin', 'Nurse', 'Doctor'].includes(user.role) && (
-                <li><Link to="/verification-codes">Parent Codes</Link></li>
+                <>
+                  <li><Link to="/appointments">Appointments</Link></li>
+                  <li><Link to="/verification-codes">Parent Codes</Link></li>
+                </>
               )}
               <li><Link to="/reports">Reports</Link></li>
             </>

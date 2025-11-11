@@ -25,6 +25,8 @@ app.use('/api/vaccines', require('./routes/vaccineRoutes'));
 app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/parent', require('./routes/parentRoutes'));
+app.use('/api/appointments', require('./routes/appointmentRoutes'));
+app.use('/api/staff/appointments', require('./routes/staffAppointmentRoutes'));
 
 // Error handler
 app.use((err, req, res, next) => {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { toast } from 'react-toastify';
+import AppointmentModal from '../components/AppointmentModal';
 
 const ParentSchedule = () => {
   const [children, setChildren] = useState([]);
@@ -9,6 +10,8 @@ const ParentSchedule = () => {
   const [overdueImmunizations, setOverdueImmunizations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedChild, setSelectedChild] = useState('all');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedImmunization, setSelectedImmunization] = useState(null);
 
   useEffect(() => {
     fetchScheduleData();
@@ -80,6 +83,11 @@ const ParentSchedule = () => {
     return `Due in ${daysUntilDue} days`;
   };
 
+  const handleScheduleClick = (immunization) => {
+    setSelectedImmunization(immunization);
+    setModalOpen(true);
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
 
   const filteredUpcoming = getFilteredImmunizations(upcomingImmunizations);
@@ -87,6 +95,15 @@ const ParentSchedule = () => {
 
   return (
     <div>
+      {selectedImmunization && (
+        <AppointmentModal 
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          immunization={selectedImmunization}
+          patientId={selectedImmunization.childId}
+          patientName={selectedImmunization.childName}
+        />
+      )}
       <div className="page-header">
         <h1>Immunization Schedule</h1>
         <Link to="/parent/children" className="btn btn-secondary">Back to Children</Link>
@@ -163,8 +180,12 @@ const ParentSchedule = () => {
                         {daysOverdue} days
                       </td>
                       <td>
-                        <button className="btn btn-danger" style={{ fontSize: '0.8rem' }}>
-                          Contact Provider
+                        <button 
+                          className="btn btn-danger" 
+                          style={{ fontSize: '0.8rem' }}
+                          onClick={() => handleScheduleClick(imm)}
+                        >
+                          Schedule Now
                         </button>
                       </td>
                     </tr>
@@ -213,7 +234,11 @@ const ParentSchedule = () => {
                       </td>
                       <td>
                         {daysUntilDue <= 30 ? (
-                          <button className="btn btn-primary" style={{ fontSize: '0.8rem' }}>
+                          <button 
+                            className="btn btn-primary" 
+                            style={{ fontSize: '0.8rem' }}
+                            onClick={() => handleScheduleClick(imm)}
+                          >
                             Schedule Appointment
                           </button>
                         ) : (

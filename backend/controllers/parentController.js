@@ -17,6 +17,25 @@ exports.getMyChildren = async (req, res) => {
   }
 };
 
+// Get specific child details
+exports.getChildDetails = async (req, res) => {
+  try {
+    const child = await Patient.findOne({
+      _id: req.params.childId,
+      parentUser: req.user.id,
+      isActive: true
+    });
+
+    if (!child) {
+      return res.status(404).json({ message: 'Child not found or access denied' });
+    }
+
+    res.status(200).json({ success: true, data: child });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Get child's immunization history
 exports.getChildImmunizations = async (req, res) => {
   try {

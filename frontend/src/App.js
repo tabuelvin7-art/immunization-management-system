@@ -19,9 +19,12 @@ import ParentChildren from './pages/ParentChildren';
 import ParentNotifications from './pages/ParentNotifications';
 import ParentChildProfile from './pages/ParentChildProfile';
 import ParentSchedule from './pages/ParentSchedule';
+import ParentChildSchedule from './pages/ParentChildSchedule';
+import ParentChildImmunizations from './pages/ParentChildImmunizations';
 import LinkChild from './pages/LinkChild';
 import GenerateParentCode from './pages/GenerateParentCode';
 import VerificationCodes from './pages/VerificationCodes';
+import AppointmentManagement from './pages/AppointmentManagement';
 import RoleGuard from './components/RoleGuard';
 import AccessDenied from './components/AccessDenied';
 import DashboardRouter from './components/DashboardRouter';
@@ -52,12 +55,15 @@ function App() {
               <Route path="/vaccines/new" element={<PrivateRoute><VaccineForm /></PrivateRoute>} />
               <Route path="/vaccines/edit/:id" element={<PrivateRoute><VaccineForm /></PrivateRoute>} />
               <Route path="/reports" element={<PrivateRoute><Reports /></PrivateRoute>} />
+              <Route path="/appointments" element={<PrivateRoute><AppointmentManagement /></PrivateRoute>} />
               <Route path="/patients/:patientId/generate-parent-code" element={<PrivateRoute><GenerateParentCode /></PrivateRoute>} />
               <Route path="/verification-codes" element={<PrivateRoute><VerificationCodes /></PrivateRoute>} />
               
               {/* Parent Routes */}
               <Route path="/parent/children" element={<PrivateRoute><ParentChildren /></PrivateRoute>} />
               <Route path="/parent/children/:id" element={<PrivateRoute><ParentChildProfile /></PrivateRoute>} />
+              <Route path="/parent/children/:id/immunizations" element={<PrivateRoute><ParentChildImmunizations /></PrivateRoute>} />
+              <Route path="/parent/children/:id/schedule" element={<PrivateRoute><ParentChildSchedule /></PrivateRoute>} />
               <Route path="/parent/notifications" element={<PrivateRoute><ParentNotifications /></PrivateRoute>} />
               <Route path="/parent/schedule" element={<PrivateRoute><ParentSchedule /></PrivateRoute>} />
               <Route path="/parent/link-child" element={<PrivateRoute><LinkChild /></PrivateRoute>} />
