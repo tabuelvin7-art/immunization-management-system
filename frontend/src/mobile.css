@@ -24,6 +24,23 @@
     font-size: 16px !important; /* Prevents iOS zoom */
     -webkit-appearance: none;
     appearance: none;
+    background: #ffffff !important;
+    color: #2c3e50 !important;
+    font-weight: 500 !important;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    background: #ffffff !important;
+    color: #2c3e50 !important;
+  }
+
+  input::placeholder,
+  select::placeholder,
+  textarea::placeholder {
+    color: #6c757d !important;
+    opacity: 0.7 !important;
   }
 
   /* Better table handling on mobile */
