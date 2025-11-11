@@ -9,6 +9,18 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // Toggle body class when menu opens/closes
+  React.useEffect(() => {
+    if (isMenuOpen) {
+      document.body.classList.add('menu-open');
+    } else {
+      document.body.classList.remove('menu-open');
+    }
+    return () => {
+      document.body.classList.remove('menu-open');
+    };
+  }, [isMenuOpen]);
+
   const handleLogout = () => {
     logout();
     navigate('/login');
@@ -21,8 +33,14 @@ const Navbar = () => {
 
   if (!user) return null;
 
+  const handleBackdropClick = (e) => {
+    if (e.target.classList.contains('navbar') && e.target.classList.contains('menu-open')) {
+      setIsMenuOpen(false);
+    }
+  };
+
   return (
-    <nav className={`navbar ${isMenuOpen ? 'menu-open' : ''}`}>
+    <nav className={`navbar ${isMenuOpen ? 'menu-open' : ''}`} onClick={handleBackdropClick}>
       <div className="navbar-container">
         <div className="navbar-header">
           <Link to="/" className="navbar-logo" onClick={closeMenu}>
