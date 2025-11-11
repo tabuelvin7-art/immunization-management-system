@@ -1,0 +1,139 @@
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Status variants */
+.status-badge-completed {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+}
+
+.status-badge-due {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.status-badge-overdue {
+  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+  color: white;
+}
+
+.status-badge-scheduled {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.status-badge-active {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+}
+
+.status-badge-inactive {
+  background: linear-gradient(135deg, #bdc3c7 0%, #95a5a6 100%);
+  color: white;
+}
+
+.status-badge-pending {
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  color: #8b4513;
+}
+
+.status-badge-expired {
+  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+  color: white;
+}
+
+/* Size variants */
+.status-badge-small {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.status-badge-normal {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.status-badge-large {
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+}
+
+/* Animated variant */
+.status-badge-animated {
+  animation: pulse 2s infinite;
+}
+
+.status-badge-overdue.status-badge-animated {
+  animation: urgentPulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@keyframes urgentPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(255, 65, 108, 0.3);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(255, 65, 108, 0.5);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(255, 65, 108, 0.3);
+  }
+}
+
+/* Hover effects */
+.status-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon support */
+.status-badge .icon {
+  width: 1em;
+  height: 1em;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .status-badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .status-badge-small {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
+  }
+
+  .status-badge-large {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
