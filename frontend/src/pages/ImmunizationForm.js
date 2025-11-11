@@ -14,22 +14,29 @@ const ImmunizationForm = () => {
     status: 'Completed'
   });
   const [patients, setPatients] = useState([]);
+  const [vaccines, setVaccines] = useState([]);
+  const [selectedVaccine, setSelectedVaccine] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    fetchPatients();
-    if (id) {
-      fetchImmunization();
-    } else {
-      const patientId = searchParams.get('patientId');
-      if (patientId) {
-        setFormData(prev => ({ ...prev, patient: patientId }));
+    const loadData = async () => {
+      await fetchPatients();
+      await fetchVaccines();
+      if (id) {
+        await fetchImmunization();
+      } else {
+        const patientId = searchParams.get('patientId');
+        if (patientId) {
+          setFormData(prev => ({ ...prev, patient: patientId }));
+        }
       }
-    }
-  }, [id]);
+    };
+    loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, searchParams]);
 
   const fetchPatients = async () => {
     try {
@@ -37,6 +44,15 @@ const ImmunizationForm = () => {
       setPatients(data.data);
     } catch (error) {
       toast.error('Failed to load patients');
+    }
+  };
+
+  const fetchVaccines = async () => {
+    try {
+      const { data } = await api.get('/vaccines');
+      setVaccines(data.data);
+    } catch (error) {
+      toast.error('Failed to load vaccines');
     }
   };
 
@@ -60,6 +76,27 @@ const ImmunizationForm = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleVaccineSelect = (e) => {
+    const vaccineId = e.target.value;
+    const vaccine = vaccines.find(v => v._id === vaccineId);
+    
+    if (vaccine) {
+      setSelectedVaccine(vaccine);
+      setFormData({
+        ...formData,
+        vaccineName: vaccine.name,
+        batchNumber: vaccine.batchNumber
+      });
+    } else {
+      setSelectedVaccine(null);
+      setFormData({
+        ...formData,
+        vaccineName: '',
+        batchNumber: ''
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -98,8 +135,47 @@ const ImmunizationForm = () => {
           </div>
 
           <div className="form-group">
+            <label>💉 Select Vaccine *</label>
+            <select onChange={handleVaccineSelect} required>
+              <option value="">-- Select a vaccine --</option>
+              {vaccines.map(v => (
+                <option key={v._id} value={v._id}>
+                  {v.name} - {v.manufacturer} (Stock: {v.stockQuantity})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {selectedVaccine && (
+            <div style={{ 
+              padding: '1rem', 
+              background: 'rgba(102, 126, 234, 0.1)', 
+              borderRadius: '8px',
+              marginBottom: '1rem'
+            }}>
+              <h4 style={{ color: '#667eea', marginBottom: '0.5rem' }}>📋 Vaccine Information</h4>
+              <div style={{ fontSize: '0.9rem', color: '#6c757d', lineHeight: '1.6' }}>
+                <p><strong>Description:</strong> {selectedVaccine.description}</p>
+                <p><strong>Batch Number:</strong> {selectedVaccine.batchNumber}</p>
+                <p><strong>Expiry Date:</strong> {new Date(selectedVaccine.expiryDate).toLocaleDateString()}</p>
+                <p><strong>Age Group:</strong> {selectedVaccine.ageGroup}</p>
+                <p><strong>Dosage:</strong> {selectedVaccine.dosage}</p>
+                <p><strong>Storage:</strong> {selectedVaccine.storageConditions}</p>
+              </div>
+            </div>
+          )}
+
+          <div className="form-group">
             <label>Vaccine Name *</label>
-            <input type="text" name="vaccineName" value={formData.vaccineName} onChange={handleChange} required />
+            <input 
+              type="text" 
+              name="vaccineName" 
+              value={formData.vaccineName} 
+              onChange={handleChange} 
+              required 
+              readOnly
+              style={{ background: '#f8f9fa' }}
+            />
           </div>
 
           <div className="form-group">
@@ -109,7 +185,15 @@ const ImmunizationForm = () => {
 
           <div className="form-group">
             <label>Batch Number *</label>
-            <input type="text" name="batchNumber" value={formData.batchNumber} onChange={handleChange} required />
+            <input 
+              type="text" 
+              name="batchNumber" 
+              value={formData.batchNumber} 
+              onChange={handleChange} 
+              required 
+              readOnly
+              style={{ background: '#f8f9fa' }}
+            />
           </div>
 
           <div className="form-group">
