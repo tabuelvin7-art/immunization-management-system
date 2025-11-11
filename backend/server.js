@@ -39,12 +39,27 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
-// Health check endpoint
+// Health check endpoints
 app.get('/', (req, res) => {
   res.json({ 
     message: 'Immunization Management System API',
     status: 'running',
     version: '1.0.0'
+  });
+});
+
+app.get('/api', (req, res) => {
+  res.json({ 
+    message: 'API is working',
+    status: 'ok',
+    endpoints: [
+      '/api/auth/register',
+      '/api/auth/login',
+      '/api/patients',
+      '/api/vaccines',
+      '/api/immunizations',
+      '/api/appointments'
+    ]
   });
 });
 
