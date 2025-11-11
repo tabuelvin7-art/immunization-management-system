@@ -320,8 +320,25 @@
   }
 
   .btn {
-    padding: 0.55rem 1rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .data-table {
     font-size: 0.85rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  /* Make tables scrollable on mobile */
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -337,5 +354,25 @@
 
   .card {
     padding: 1rem;
+  }
+
+  .btn {
+    padding: 0.65rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .data-table {
+    font-size: 0.8rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 0.6rem 0.4rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
   }
 }
