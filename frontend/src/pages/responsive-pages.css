@@ -1,11 +1,26 @@
 /* Comprehensive Mobile Responsive Styles for All Pages */
 
+/* Prevent overflow on all mobile pages */
+@media (max-width: 768px) {
+  * {
+    max-width: 100%;
+  }
+
+  html,
+  body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+}
+
 /* Patient List & Vaccine List - Table Improvements */
 @media (max-width: 768px) {
   /* Convert tables to cards on mobile */
   .data-table {
     display: block;
     width: 100%;
+    overflow-x: hidden;
   }
 
   .data-table thead {

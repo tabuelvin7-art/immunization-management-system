@@ -17,6 +17,8 @@
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2.5rem;
+  width: 100%;
+  max-width: 100%;
 }
 
 .stat-card {
@@ -215,6 +217,8 @@
   .stats-grid {
     grid-template-columns: 1fr;
     gap: 1.25rem;
+    width: 100%;
+    max-width: 100%;
   }
 
   .stat-card {
@@ -247,6 +251,8 @@
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    width: 100%;
   }
 
   .data-table th,

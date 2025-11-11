@@ -1,6 +1,9 @@
 .App {
   min-height: 100vh;
   background: transparent;
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
 }
 
 .main-content {
@@ -14,6 +17,8 @@
   animation: fadeInUp 0.6s ease-out;
   border: 1px solid rgba(255, 255, 255, 0.2);
   min-height: calc(100vh - 120px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Add horizontal margin only on very wide screens */
@@ -246,6 +251,7 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  table-layout: auto;
 }
 
 .data-table th {
@@ -320,10 +326,13 @@
 @media (max-width: 768px) {
   .main-content {
     padding: 1.25rem;
-    margin: 0.75rem 0.5rem;
+    margin: 0.75rem;
     border-radius: 12px;
     margin-top: 1rem;
     min-height: calc(100vh - 100px);
+    width: calc(100% - 1.5rem);
+    max-width: calc(100% - 1.5rem);
+    overflow-x: hidden;
   }
 
   .page-header {
@@ -368,13 +377,31 @@
     -webkit-overflow-scrolling: touch;
     margin: 0 -1.25rem;
     padding: 0 1.25rem;
+    max-width: 100%;
+  }
+
+  .data-table {
+    min-width: 100%;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .data-table thead,
+  .data-table tbody,
+  .data-table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
   }
 }
 
 @media (max-width: 480px) {
   .main-content {
-    margin: 0.5rem 0.25rem;
+    margin: 0.5rem;
     padding: 1rem;
+    width: calc(100% - 1rem);
+    max-width: calc(100% - 1rem);
   }
 
   .page-header {

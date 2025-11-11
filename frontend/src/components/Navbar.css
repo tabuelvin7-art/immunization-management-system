@@ -20,6 +20,7 @@
   align-items: center;
   background: transparent;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .navbar-logo {
@@ -208,6 +209,9 @@
   .navbar-container {
     flex-direction: row;
     padding: 0 1rem;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .navbar-header {
