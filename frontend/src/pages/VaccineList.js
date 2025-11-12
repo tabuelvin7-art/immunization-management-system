@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { toast } from 'react-toastify';
+import './VaccinePages.css';
 
 const VaccineList = () => {
   const [vaccines, setVaccines] = useState([]);
@@ -67,9 +68,10 @@ const VaccineList = () => {
             </thead>
             <tbody>
               {vaccines.map((vaccine) => (
-                <tr key={vaccine._id} style={{ 
-                  backgroundColor: isExpired(vaccine) ? '#fadbd8' : isLowStock(vaccine) ? '#fcf3cf' : 'transparent' 
-                }}>
+                <tr 
+                  key={vaccine._id} 
+                  className={isExpired(vaccine) ? 'vaccine-row-expired' : isLowStock(vaccine) ? 'vaccine-row-low-stock' : ''}
+                >
                   <td data-label="Name">{vaccine.name}</td>
                   <td data-label="Manufacturer">{vaccine.manufacturer}</td>
                   <td data-label="Quantity">{vaccine.quantity}</td>
@@ -77,11 +79,11 @@ const VaccineList = () => {
                   <td data-label="Expiry Date">{new Date(vaccine.expiryDate).toLocaleDateString()}</td>
                   <td data-label="Status">
                     {isExpired(vaccine) ? (
-                      <span style={{ color: '#e74c3c', fontWeight: 'bold' }}>Expired</span>
+                      <span className="vaccine-status-expired">Expired</span>
                     ) : isLowStock(vaccine) ? (
-                      <span style={{ color: '#f39c12', fontWeight: 'bold' }}>Low Stock</span>
+                      <span className="vaccine-status-low">Low Stock</span>
                     ) : (
-                      <span style={{ color: '#27ae60' }}>In Stock</span>
+                      <span className="vaccine-status-active">In Stock</span>
                     )}
                   </td>
                   <td data-label="Actions">

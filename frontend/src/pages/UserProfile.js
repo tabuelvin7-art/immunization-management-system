@@ -3,6 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import api from '../services/api';
 import { toast } from 'react-toastify';
 import EnhancedCard from '../components/EnhancedCard';
+import './UserProfile.css';
 
 const UserProfile = () => {
   const { user } = useContext(AuthContext);
@@ -106,7 +107,7 @@ const UserProfile = () => {
   if (!user) return <div className="loading">Loading...</div>;
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+    <div className="profile-container">
       <div className="page-header">
         <h1>👤 My Profile</h1>
         {!isEditing && (
@@ -119,20 +120,20 @@ const UserProfile = () => {
       <EnhancedCard>
         {!isEditing ? (
           <div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
-              <div>
-                <h3 style={{ color: '#6c757d', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Full Name</h3>
-                <p style={{ fontSize: '1.2rem', fontWeight: '600', color: '#2c3e50' }}>{user.name}</p>
+            <div className="profile-info-grid">
+              <div className="profile-info-item">
+                <h3>Full Name</h3>
+                <p>{user.name}</p>
               </div>
 
-              <div>
-                <h3 style={{ color: '#6c757d', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Email Address</h3>
-                <p style={{ fontSize: '1.2rem', fontWeight: '600', color: '#2c3e50' }}>{user.email}</p>
+              <div className="profile-info-item">
+                <h3>Email Address</h3>
+                <p>{user.email}</p>
               </div>
 
-              <div>
-                <h3 style={{ color: '#6c757d', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Role</h3>
-                <p style={{ fontSize: '1.2rem', fontWeight: '600', color: '#2c3e50' }}>
+              <div className="profile-info-item">
+                <h3>Role</h3>
+                <p>
                   {user.role === 'Admin' && '⚙️ Administrator'}
                   {user.role === 'Doctor' && '👨‍⚕️ Doctor'}
                   {user.role === 'Nurse' && '👩‍⚕️ Nurse'}
@@ -140,24 +141,24 @@ const UserProfile = () => {
                 </p>
               </div>
 
-              <div>
-                <h3 style={{ color: '#6c757d', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Account Status</h3>
-                <p style={{ fontSize: '1.2rem', fontWeight: '600', color: '#27ae60' }}>
+              <div className="profile-info-item">
+                <h3>Account Status</h3>
+                <p style={{ color: '#27ae60' }}>
                   ✅ Active
                 </p>
               </div>
             </div>
 
-            <div style={{ marginTop: '2rem', padding: '1rem', background: 'rgba(102, 126, 234, 0.1)', borderRadius: '8px' }}>
-              <h3 style={{ color: '#667eea', marginBottom: '0.5rem' }}>🔐 Security</h3>
-              <p style={{ color: '#6c757d', fontSize: '0.9rem' }}>
+            <div className="profile-security-box">
+              <h3>🔐 Security</h3>
+              <p>
                 Your password is encrypted and secure. Click "Edit Profile" to change your password.
               </p>
             </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
-            <h2 style={{ marginBottom: '1.5rem', color: '#2c3e50' }}>Edit Profile Information</h2>
+            <h2 className="profile-edit-title">Edit Profile Information</h2>
 
             <div className="form-group">
               <label>👤 Full Name</label>
@@ -183,15 +184,9 @@ const UserProfile = () => {
               />
             </div>
 
-            <div style={{ 
-              marginTop: '2rem', 
-              padding: '1.5rem', 
-              background: 'rgba(248, 249, 250, 0.8)', 
-              borderRadius: '12px',
-              border: '1px solid #e9ecef'
-            }}>
-              <h3 style={{ marginBottom: '1rem', color: '#2c3e50' }}>🔒 Change Password (Optional)</h3>
-              <p style={{ color: '#6c757d', fontSize: '0.9rem', marginBottom: '1rem' }}>
+            <div className="profile-password-section">
+              <h3>🔒 Change Password (Optional)</h3>
+              <p>
                 Leave blank if you don't want to change your password
               </p>
 
@@ -216,7 +211,7 @@ const UserProfile = () => {
                   placeholder="Enter new password (min 8 characters)"
                   minLength="8"
                 />
-                <small style={{ color: '#6c757d', display: 'block', marginTop: '0.25rem' }}>
+                <small className="password-hint">
                   Must be at least 8 characters with uppercase, lowercase, number, and special character
                 </small>
               </div>
@@ -233,7 +228,7 @@ const UserProfile = () => {
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
+            <div className="profile-form-actions">
               <button 
                 type="submit" 
                 className="btn btn-primary" 
@@ -254,8 +249,8 @@ const UserProfile = () => {
         )}
       </EnhancedCard>
 
-      <EnhancedCard style={{ marginTop: '2rem' }}>
-        <h3 style={{ color: '#2c3e50', marginBottom: '1rem' }}>📋 Account Information</h3>
+      <EnhancedCard className="profile-account-info">
+        <h3>📋 Account Information</h3>
         <div style={{ color: '#6c757d', lineHeight: '1.6' }}>
           <p><strong>Role Permissions:</strong></p>
           <ul style={{ paddingLeft: '1.5rem', marginTop: '0.5rem' }}>
