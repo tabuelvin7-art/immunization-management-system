@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../services/api';
 import { toast } from 'react-toastify';
-import './VaccinePages.css';
 
 const VaccineForm = () => {
   const [formData, setFormData] = useState({
@@ -95,7 +94,7 @@ const VaccineForm = () => {
             <input type="number" name="minStockLevel" value={formData.minStockLevel} onChange={handleChange} min="0" />
           </div>
 
-          <div className="vaccine-form-actions">
+          <div style={{ display: 'flex', gap: '1rem' }}>
             <button type="submit" className="btn btn-primary" disabled={loading}>
               {loading ? 'Saving...' : 'Save'}
             </button>
