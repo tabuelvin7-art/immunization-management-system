@@ -25,7 +25,7 @@ const ParentNotifications = () => {
   const markAsRead = async (notificationId) => {
     try {
       await api.put(`/notifications/${notificationId}/read`);
-      setNotifications(notifications.map(n => 
+      setNotifications(prev => prev.map(n => 
         n._id === notificationId ? { ...n, isRead: true } : n
       ));
     } catch (error) {
@@ -36,7 +36,7 @@ const ParentNotifications = () => {
   const markAllAsRead = async () => {
     try {
       await api.put('/notifications/mark-all-read');
-      setNotifications(notifications.map(n => ({ ...n, isRead: true })));
+      setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
       toast.success('All notifications marked as read');
     } catch (error) {
       toast.error('Failed to mark all notifications as read');
@@ -112,13 +112,7 @@ const ParentNotifications = () => {
             {filteredNotifications.map((notification) => (
               <div 
                 key={notification._id}
-                style={{
-                  padding: '1.5rem',
-                  borderBottom: '1px solid #ecf0f1',
-                  backgroundColor: notification.isRead ? 'transparent' : '#f8f9fa',
-                  cursor: notification.isRead ? 'default' : 'pointer',
-                  transition: 'background-color 0.3s'
-                }}
+                className={`notification-item ${!notification.isRead ? 'unread' : ''}`}
                 onClick={() => !notification.isRead && markAsRead(notification._id)}
               >
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>

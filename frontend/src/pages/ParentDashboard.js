@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { toast } from 'react-toastify';
@@ -10,38 +10,73 @@ const ParentDashboard = () => {
   const [stats, setStats] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
+    let mounted = true;
+    
+    const fetchDashboardData = async () => {
+      try {
+        const [statsRes, notificationsRes] = await Promise.all([
+          api.get('/parent/dashboard'),
+          api.get('/notifications')
+        ]);
+        
+        if (mounted) {
+          setStats(statsRes.data.data);
+          setNotifications(notificationsRes.data.data.slice(0, 5));
+          setError(false);
+        }
+      } catch (error) {
+        if (mounted) {
+          console.error('Dashboard error:', error);
+          setError(true);
+          toast.error('Failed to load dashboard data');
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+    
     fetchDashboardData();
+    
+    return () => {
+      mounted = false;
+    };
   }, []);
 
-  const fetchDashboardData = async () => {
-    try {
-      const [statsRes, notificationsRes] = await Promise.all([
-        api.get('/parent/dashboard'),
-        api.get('/notifications')
-      ]);
-      setStats(statsRes.data.data);
-      setNotifications(notificationsRes.data.data.slice(0, 5)); // Show only 5 recent notifications
-    } catch (error) {
-      toast.error('Failed to load dashboard data');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const markNotificationAsRead = async (notificationId) => {
+  const markNotificationAsRead = useCallback(async (notificationId) => {
     try {
       await api.put(`/notifications/${notificationId}/read`);
-      setNotifications(notifications.map(n => 
+      setNotifications(prev => prev.map(n => 
         n._id === notificationId ? { ...n, isRead: true } : n
       ));
     } catch (error) {
+      console.error('Mark notification error:', error);
       toast.error('Failed to mark notification as read');
     }
-  };
+  }, []);
 
-  if (loading) return <div className="loading">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="dashboard">
+        <div className="loading">Loading dashboard...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="dashboard">
+        <div style={{ textAlign: 'center', padding: '3rem' }}>
+          <h2>Unable to load dashboard</h2>
+          <p>Please try refreshing the page</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard">
@@ -85,10 +120,10 @@ const ParentDashboard = () => {
           <EnhancedCard>
             {stats?.children?.length > 0 ? (
               <div>
-                {stats.children.map((child, index) => (
+                {stats.children.slice(0, 10).map((child, index) => (
                   <div key={child._id} className="child-card" style={{ 
                     padding: '1.5rem', 
-                    borderBottom: index < stats.children.length - 1 ? '1px solid #f8f9fa' : 'none',
+                    borderBottom: index < Math.min(stats.children.length, 10) - 1 ? '1px solid #f8f9fa' : 'none',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -96,19 +131,8 @@ const ParentDashboard = () => {
                   }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      <div style={{
-                        width: '60px',
-                        height: '60px',
-                        borderRadius: '50%',
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'white',
-                        fontSize: '1.5rem',
-                        fontWeight: 'bold'
-                      }}>
-                        {child.name.charAt(0)}
+                      <div className="child-avatar">
+                        {child.name?.charAt(0) || '?'}
                       </div>
                       <div>
                         <h4 style={{ margin: '0 0 0.5rem 0', color: '#2c3e50', fontSize: '1.2rem' }}>
@@ -160,20 +184,7 @@ const ParentDashboard = () => {
                     onClick={() => !notification.isRead && markNotificationAsRead(notification._id)}
                   >
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
-                      <div style={{
-                        fontSize: '1.5rem',
-                        padding: '0.5rem',
-                        borderRadius: '50%',
-                        background: notification.priority === 'high' 
-                          ? 'linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%)'
-                          : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        color: 'white',
-                        minWidth: '40px',
-                        height: '40px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}>
+                      <div className={`notification-icon ${notification.priority === 'high' ? 'high' : ''}`}>
                         {notification.type === 'upcoming_immunization' ? '📅' : 
                          notification.type === 'overdue_immunization' ? '⚠️' : '📢'}
                       </div>
@@ -234,7 +245,7 @@ const ParentDashboard = () => {
       </div>
 
       {stats?.recentImmunizations?.length > 0 && (
-        <div style={{ marginTop: '3rem' }}>
+        <div style={{ marginTop: '3rem' }} className="recent-immunizations-section">
           <h2>Recent Immunizations</h2>
           <EnhancedCard>
             <table className="data-table">
@@ -243,53 +254,36 @@ const ParentDashboard = () => {
                   <th>Child</th>
                   <th>Vaccine</th>
                   <th>Date</th>
-                  <th>Administered By</th>
+                  <th className="hide-mobile">Administered By</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
-                {stats.recentImmunizations.map((imm) => (
+                {stats.recentImmunizations.slice(0, 5).map((imm) => (
                   <tr key={imm._id}>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <div style={{
-                          width: '32px',
-                          height: '32px',
-                          borderRadius: '50%',
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: 'white',
-                          fontSize: '0.8rem',
-                          fontWeight: 'bold'
-                        }}>
-                          {imm.patient?.name?.charAt(0)}
+                        <div className="table-avatar">
+                          {imm.patient?.name?.charAt(0) || '?'}
                         </div>
                         <strong>{imm.patient?.name}</strong>
                       </div>
                     </td>
                     <td>
-                      <span style={{ 
-                        color: '#667eea', 
-                        fontWeight: '600',
-                        padding: '0.25rem 0.5rem',
-                        background: 'rgba(102, 126, 234, 0.1)',
-                        borderRadius: '8px'
-                      }}>
+                      <span className="vaccine-badge">
                         💉 {imm.vaccineName}
                       </span>
                     </td>
                     <td>
                       <div>
                         {new Date(imm.dateAdministered).toLocaleDateString()}
-                        <br />
-                        <small style={{ color: '#6c757d' }}>
+                        <br className="hide-mobile" />
+                        <small style={{ color: '#6c757d' }} className="hide-mobile">
                           {new Date(imm.dateAdministered).toLocaleDateString('en-US', { weekday: 'short' })}
                         </small>
                       </div>
                     </td>
-                    <td>
+                    <td className="hide-mobile">
                       <div>
                         {imm.administeredBy?.name}
                         <br />

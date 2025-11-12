@@ -451,3 +451,235 @@ Parent Dashboard specific styles */
     gap: 1.5rem;
   }
 }
+
+/* Child avatar optimization */
+.child-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .child-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    background: #667eea;
+  }
+}
+
+/* Notification icon optimization */
+.notification-icon {
+  fontSize: 1.5rem;
+  padding: 0.5rem;
+  borderRadius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  minWidth: 40px;
+  height: 40px;
+  display: flex;
+  alignItems: center;
+  justifyContent: center;
+  flex-shrink: 0;
+}
+
+.notification-icon.high {
+  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+}
+
+@media (max-width: 768px) {
+  .notification-icon {
+    background: #667eea;
+    minWidth: 35px;
+    height: 35px;
+    fontSize: 1.2rem;
+  }
+  
+  .notification-icon.high {
+    background: #ff416c;
+  }
+}
+
+/* Table optimizations */
+.table-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.vaccine-badge {
+  color: #667eea;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 8px;
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+  
+  .table-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 0.7rem;
+    background: #667eea;
+  }
+  
+  .vaccine-badge {
+    font-size: 0.85rem;
+    padding: 0.2rem 0.4rem;
+  }
+  
+  .data-table th,
+  .data-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  /* Hide recent immunizations table on mobile to improve performance */
+  .recent-immunizations-section {
+    display: none;
+  }
+}
+
+/* Notification items for ParentNotifications page */
+.notification-item {
+  padding: 1.5rem;
+  border-bottom: 1px solid #ecf0f1;
+  background-color: transparent;
+  cursor: default;
+  transition: background-color 0.3s ease;
+}
+
+.notification-item.unread {
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+.notification-item.unread:hover {
+  background-color: #e9ecef;
+}
+
+@media (max-width: 768px) {
+  .notification-item {
+    padding: 1rem;
+    transition: none;
+  }
+  
+  .notification-item.unread:hover {
+    background-color: #f8f9fa;
+  }
+}
+
+/* Global mobile optimizations for all pages */
+@media (max-width: 768px) {
+  /* Prevent body scroll issues */
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Optimize all buttons for touch */
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-success,
+  .btn-danger,
+  button {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  /* Optimize all links for touch */
+  a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+  }
+  
+  /* Optimize tables for mobile */
+  .data-table {
+    font-size: 0.85rem;
+  }
+  
+  .data-table th,
+  .data-table td {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  /* Optimize cards for mobile */
+  .card {
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+  
+  /* Optimize page headers */
+  .page-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  /* Optimize grids for mobile */
+  [style*="display: grid"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Disable complex animations on mobile */
+  * {
+    animation-duration: 0.3s !important;
+  }
+  
+  /* Optimize select dropdowns */
+  select {
+    font-size: 16px; /* Prevents zoom on iOS */
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  /* Optimize input fields */
+  input,
+  textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* Touch device specific optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Disable all hover effects on touch devices */
+  *:hover {
+    background-color: inherit !important;
+  }
+  
+  /* Increase touch target sizes */
+  button,
+  a,
+  input[type="button"],
+  input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
