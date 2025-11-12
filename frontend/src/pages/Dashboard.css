@@ -643,11 +643,6 @@ Parent Dashboard specific styles */
     font-size: 1.5rem;
   }
   
-  /* Optimize grids for mobile */
-  [style*="display: grid"] {
-    grid-template-columns: 1fr !important;
-  }
-  
   /* Disable complex animations on mobile */
   * {
     animation-duration: 0.3s !important;
@@ -669,11 +664,6 @@ Parent Dashboard specific styles */
 
 /* Touch device specific optimizations */
 @media (hover: none) and (pointer: coarse) {
-  /* Disable all hover effects on touch devices */
-  *:hover {
-    background-color: inherit !important;
-  }
-  
   /* Increase touch target sizes */
   button,
   a,
