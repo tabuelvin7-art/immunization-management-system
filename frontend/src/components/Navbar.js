@@ -33,14 +33,10 @@ const Navbar = () => {
 
   if (!user) return null;
 
-  const handleBackdropClick = (e) => {
-    if (e.target.classList.contains('navbar') && e.target.classList.contains('menu-open')) {
-      setIsMenuOpen(false);
-    }
-  };
-
   return (
-    <nav className={`navbar ${isMenuOpen ? 'menu-open' : ''}`} onClick={handleBackdropClick}>
+    <>
+      {isMenuOpen && <div className="navbar-backdrop" onClick={() => setIsMenuOpen(false)} />}
+      <nav className={`navbar ${isMenuOpen ? 'menu-open' : ''}`}>
       <div className="navbar-container">
         <div className="navbar-header">
           <Link to="/" className="navbar-logo" onClick={closeMenu}>
@@ -92,10 +88,8 @@ const Navbar = () => {
             )}
           </ul>
           <div className="navbar-user">
-            <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }} onClick={closeMenu}>
-              <span style={{ cursor: 'pointer', transition: 'opacity 0.3s' }} 
-                    onMouseEnter={(e) => e.target.style.opacity = '0.8'}
-                    onMouseLeave={(e) => e.target.style.opacity = '1'}>
+            <Link to="/profile" className="user-profile-link" onClick={closeMenu}>
+              <span className="user-name">
                 {user.name} ({user.role})
               </span>
             </Link>
@@ -104,6 +98,7 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
+    </>
   );
 };
 

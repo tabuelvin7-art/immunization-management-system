@@ -127,6 +127,20 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
+.user-profile-link {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.3s ease;
+}
+
+.user-profile-link:hover {
+  opacity: 0.8;
+}
+
+.user-name {
+  cursor: pointer;
+}
+
 .btn-logout {
   background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
   color: white;
@@ -230,11 +244,12 @@
     padding: 0.5rem;
     z-index: 1003;
     position: relative;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   /* Backdrop overlay when menu is open */
-  .navbar.menu-open::after {
-    content: '';
+  .navbar-backdrop {
     position: fixed;
     top: 0;
     left: 0;
@@ -243,6 +258,7 @@
     background: rgba(0, 0, 0, 0.5);
     z-index: 1001;
     animation: fadeIn 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
   }
 
   @keyframes fadeIn {
@@ -298,6 +314,9 @@
     box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
     overflow-y: auto;
     z-index: 1002;
+    -webkit-overflow-scrolling: touch;
+    will-change: right;
+    transform: translateZ(0);
   }
 
   .navbar-content.open {
@@ -374,5 +393,43 @@
 
   .logo-text {
     font-size: 1.1rem;
+  }
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+  /* Disable complex animations on mobile */
+  .logo-icon {
+    animation: none !important;
+  }
+  
+  .navbar-logo:hover .logo-icon {
+    animation: none !important;
+  }
+  
+  .notification-badge {
+    animation: none !important;
+  }
+  
+  /* Simplify backdrop filter on mobile */
+  .navbar-content {
+    backdrop-filter: none;
+    background: rgba(102, 126, 234, 0.98);
+  }
+  
+  /* Improve touch responsiveness */
+  .navbar-menu a,
+  .btn-logout,
+  .navbar-toggle {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  /* Prevent body scroll when menu is open */
+  body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
   }
 }

@@ -79,24 +79,21 @@ const ParentDashboard = () => {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginTop: '2rem' }}>
+      <div className="parent-dashboard-grid">
         <div>
           <h2>My Children</h2>
           <EnhancedCard>
             {stats?.children?.length > 0 ? (
               <div>
                 {stats.children.map((child, index) => (
-                  <div key={child._id} style={{ 
+                  <div key={child._id} className="child-card" style={{ 
                     padding: '1.5rem', 
                     borderBottom: index < stats.children.length - 1 ? '1px solid #f8f9fa' : 'none',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    borderRadius: '12px',
-                    transition: 'all 0.3s ease'
+                    borderRadius: '12px'
                   }}
-                  onMouseEnter={(e) => e.target.style.background = 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)'}
-                  onMouseLeave={(e) => e.target.style.background = 'transparent'}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                       <div style={{
@@ -153,27 +150,14 @@ const ParentDashboard = () => {
               <div>
                 {notifications.map((notification, index) => (
                   <div 
-                    key={notification._id} 
+                    key={notification._id}
+                    className={`notification-card ${!notification.isRead ? 'unread' : ''} ${notification.priority === 'high' ? 'high-priority' : ''}`}
                     style={{ 
                       padding: '1.5rem', 
                       borderBottom: index < notifications.length - 1 ? '1px solid #f8f9fa' : 'none',
-                      backgroundColor: notification.isRead ? 'transparent' : 'rgba(102, 126, 234, 0.05)',
-                      cursor: notification.isRead ? 'default' : 'pointer',
-                      borderRadius: '12px',
-                      transition: 'all 0.3s ease',
-                      border: notification.priority === 'high' ? '2px solid rgba(255, 65, 108, 0.2)' : 'none'
+                      borderRadius: '12px'
                     }}
                     onClick={() => !notification.isRead && markNotificationAsRead(notification._id)}
-                    onMouseEnter={(e) => {
-                      if (!notification.isRead) {
-                        e.target.style.backgroundColor = 'rgba(102, 126, 234, 0.1)';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!notification.isRead) {
-                        e.target.style.backgroundColor = 'rgba(102, 126, 234, 0.05)';
-                      }
-                    }}
                   >
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
                       <div style={{

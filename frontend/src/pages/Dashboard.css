@@ -391,3 +391,63 @@
   font-size: 1.2rem;
   color: #667eea;
 }
+/* 
+Parent Dashboard specific styles */
+.child-card {
+  transition: background 0.3s ease;
+}
+
+.child-card:hover {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.notification-card {
+  background-color: transparent;
+  cursor: default;
+  transition: background-color 0.3s ease;
+}
+
+.notification-card.unread {
+  background-color: rgba(102, 126, 234, 0.05);
+  cursor: pointer;
+}
+
+.notification-card.unread:hover {
+  background-color: rgba(102, 126, 234, 0.1);
+}
+
+.notification-card.high-priority {
+  border: 2px solid rgba(255, 65, 108, 0.2);
+}
+
+/* Disable hover effects on mobile for parent dashboard */
+@media (max-width: 768px) {
+  .child-card,
+  .notification-card {
+    transition: none;
+  }
+  
+  .child-card:hover,
+  .notification-card.unread:hover {
+    background: transparent;
+  }
+  
+  .notification-card.unread {
+    background-color: rgba(102, 126, 234, 0.05);
+  }
+}
+
+/* Parent dashboard grid layout */
+.parent-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .parent-dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
