@@ -32,6 +32,10 @@
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideInUp 0.6s ease-out;
+  /* Optimize for mobile rendering */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
   min-height: 140px;
   display: flex;
   flex-direction: column;
@@ -200,15 +204,28 @@
   border-bottom: none;
 }
 
-/* Loading animation */
+/* Loading animation - optimized for mobile */
 @keyframes slideInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translate3d(0, 30px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Disable animations on mobile to prevent flickering */
+@media (max-width: 768px) {
+  .stat-card {
+    animation: none !important;
+  }
+  
+  * {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    transition-duration: 0s !important;
   }
 }
 
@@ -224,6 +241,15 @@
   .stat-card {
     padding: 1.5rem;
     min-height: 120px;
+    /* Disable problematic effects on mobile */
+    backdrop-filter: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.95);
+  }
+  
+  .stat-card:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .stat-card h3 {
@@ -276,6 +302,17 @@
   .stat-card {
     padding: 1.25rem;
     min-height: 110px;
+    /* Further simplify for small screens */
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+  }
+  
+  /* Disable all hover effects on touch devices */
+  .stat-card:hover,
+  .stat-link:hover,
+  .data-table tbody tr:hover {
+    transform: none;
+    background: inherit;
   }
 
   .stat-card h3 {
@@ -310,4 +347,47 @@
     font-size: 0.85rem;
     padding: 0.45rem 0.8rem;
   }
+}
+
+/* Mobile-specific optimizations to prevent flickering */
+@media (max-width: 768px) {
+  /* Force hardware acceleration but disable problematic effects */
+  .dashboard {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  /* Simplify gradients on mobile */
+  .dashboard h1,
+  .stat-number {
+    background: #667eea;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Disable complex animations on touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    * {
+      transition: none !important;
+      animation: none !important;
+    }
+    
+    .stat-card:hover {
+      transform: none !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    }
+  }
+}
+
+/* Prevent layout shifts during loading */
+.loading {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #667eea;
 }
