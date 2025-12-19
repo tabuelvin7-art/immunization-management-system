@@ -229,6 +229,7 @@ const GenerateParentCode = () => {
       </div>
     </div>
   );
+  
 };
 
 export default GenerateParentCode;
