@@ -44,9 +44,14 @@ const ImmunizationList = () => {
     <div>
       <div className="page-header">
         <h1>Immunization Records</h1>
-        {user && ['Doctor', 'Nurse'].includes(user.role) && (
-          <Link to="/immunizations/new" className="btn btn-primary">Add Record</Link>
-        )}
+        <div className="header-actions">
+          <button onClick={() => window.print()} className="btn btn-secondary no-print">
+            🖨️ Print Records
+          </button>
+          {user && ['Doctor', 'Nurse'].includes(user.role) && (
+            <Link to="/immunizations/new" className="btn btn-primary">Add Record</Link>
+          )}
+        </div>
       </div>
 
       <div className="card">

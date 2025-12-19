@@ -48,7 +48,12 @@ const VaccineList = () => {
     <div>
       <div className="page-header">
         <h1>Vaccine Inventory</h1>
-        <Link to="/vaccines/new" className="btn btn-primary">Add Vaccine</Link>
+        <div className="header-actions">
+          <button onClick={() => window.print()} className="btn btn-secondary no-print">
+            🖨️ Print Inventory
+          </button>
+          <Link to="/vaccines/new" className="btn btn-primary">Add Vaccine</Link>
+        </div>
       </div>
 
       <div className="card">

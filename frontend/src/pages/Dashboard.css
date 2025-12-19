@@ -673,3 +673,297 @@ Parent Dashboard specific styles */
     min-width: 44px;
   }
 }
+/* Print styles for reports */
+@media print {
+  /* Hide non-essential elements when printing */
+  .no-print,
+  .navbar,
+  .btn,
+  button,
+  .page-header .report-actions {
+    display: none !important;
+  }
+  
+  /* Show print-only elements */
+  .print-header {
+    display: block !important;
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #333;
+    padding-bottom: 1rem;
+  }
+  
+  /* Optimize page layout for printing */
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+    color: #000;
+    background: white;
+  }
+  
+  .reports-page {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Optimize cards for printing */
+  .card,
+  .report-section {
+    box-shadow: none;
+    border: 1px solid #333;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: white;
+    page-break-inside: avoid;
+  }
+  
+  /* Optimize tables for printing */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    margin-bottom: 1rem;
+  }
+  
+  .data-table th,
+  .data-table td {
+    border: 1px solid #333;
+    padding: 0.5rem;
+    text-align: left;
+  }
+  
+  .data-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+  
+  /* Optimize headings for printing */
+  h1 {
+    font-size: 18pt;
+    margin-bottom: 1rem;
+  }
+  
+  h2 {
+    font-size: 14pt;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  /* Page break controls */
+  .report-section {
+    page-break-before: auto;
+    page-break-after: auto;
+  }
+  
+  /* Ensure tables don't break awkwardly */
+  .data-table {
+    page-break-inside: avoid;
+  }
+  
+  .data-table tr {
+    page-break-inside: avoid;
+  }
+  
+  /* Print footer */
+  @page {
+    margin: 1in;
+    @bottom-center {
+      content: "Page " counter(page) " of " counter(pages);
+    }
+  }
+}
+
+/* Screen styles for print header (hidden by default) */
+.print-header {
+  display: none;
+}
+
+/* Report page specific styles */
+.reports-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.report-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.report-section h2 {
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .reports-page {
+    padding: 1rem;
+  }
+  
+  .report-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .report-actions button {
+    width: 100%;
+  }
+}/*
+ Print styles for Parent Schedule page */
+@media print {
+  /* Schedule-specific print styles */
+  .parent-schedule-page {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Hide filter controls when printing */
+  .card select,
+  .card label {
+    display: none;
+  }
+  
+  /* Optimize stat cards for printing */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .stat-card {
+    border: 1px solid #333;
+    padding: 1rem;
+    text-align: center;
+    background: white;
+  }
+  
+  .stat-card h3 {
+    font-size: 10pt;
+    margin-bottom: 0.5rem;
+  }
+  
+  .stat-number {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #000;
+  }
+  
+  /* Schedule table optimization */
+  .data-table tbody tr[style*="backgroundColor"] {
+    background-color: #f0f0f0 !important;
+  }
+  
+  /* Status colors for print */
+  .data-table td[style*="color: #e74c3c"] {
+    font-weight: bold;
+  }
+  
+  .data-table td[style*="color: #f39c12"] {
+    font-weight: bold;
+  }
+}/* Print 
+styles for Patient List and Immunization List */
+@media print {
+  /* Patient List specific styles */
+  .patient-list-page,
+  .immunization-list-page {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Hide search and filter controls */
+  .search-filters,
+  .filter-controls {
+    display: none !important;
+  }
+  
+  /* Header actions styling */
+  .header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  /* Print header for all list pages */
+  .page-header h1::after {
+    content: " - Printed on " attr(data-print-date);
+    font-size: 12pt;
+    font-weight: normal;
+    color: #666;
+  }
+  
+  /* Optimize patient/immunization tables */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .data-table th {
+    background-color: #f5f5f5 !important;
+    border: 1px solid #333;
+    padding: 0.5rem;
+    font-weight: bold;
+    font-size: 10pt;
+  }
+  
+  .data-table td {
+    border: 1px solid #333;
+    padding: 0.5rem;
+    font-size: 9pt;
+    vertical-align: top;
+  }
+  
+  /* Ensure table rows don't break across pages */
+  .data-table tr {
+    page-break-inside: avoid;
+  }
+  
+  /* Status badges in print */
+  .status-badge,
+  .badge {
+    border: 1px solid #333;
+    padding: 2px 6px;
+    font-size: 8pt;
+    background: white !important;
+    color: black !important;
+  }
+  
+  /* Links in print should show as normal text */
+  .data-table a {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .data-table a::after {
+    content: "";
+  }
+}
+
+/* Screen styles for header actions */
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  
+  .header-actions button,
+  .header-actions a {
+    width: 100%;
+    text-align: center;
+  }
+}

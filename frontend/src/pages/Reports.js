@@ -32,11 +32,26 @@ const Reports = () => {
   if (loading) return <div className="loading">Loading...</div>;
 
   return (
-    <div>
-      <h1>Reports</h1>
+    <div className="reports-page">
+      <div className="print-header">
+        <h1>Immunization System - Reports</h1>
+        <p>Generated on: {new Date().toLocaleDateString()} at {new Date().toLocaleTimeString()}</p>
+      </div>
+      
+      <div className="page-header no-print">
+        <h1>Reports</h1>
+        <div className="report-actions">
+          <button onClick={() => window.print()} className="btn btn-primary">
+            🖨️ Print Reports
+          </button>
+          <button onClick={fetchReports} className="btn btn-secondary">
+            🔄 Refresh Data
+          </button>
+        </div>
+      </div>
 
-      <div className="card" style={{ marginBottom: '2rem' }}>
-        <h2>Immunization Coverage</h2>
+      <div className="card report-section" style={{ marginBottom: '2rem' }}>
+        <h2>📊 Immunization Coverage Report</h2>
         {coverage.length > 0 ? (
           <table className="data-table">
             <thead>
@@ -59,8 +74,8 @@ const Reports = () => {
         )}
       </div>
 
-      <div className="card" style={{ marginBottom: '2rem' }}>
-        <h2>Overdue Immunizations</h2>
+      <div className="card report-section" style={{ marginBottom: '2rem' }}>
+        <h2>⚠️ Overdue Immunizations Report</h2>
         {overdueList.length > 0 ? (
           <table className="data-table">
             <thead>
@@ -87,8 +102,8 @@ const Reports = () => {
         )}
       </div>
 
-      <div className="card">
-        <h2>Low Stock Vaccines</h2>
+      <div className="card report-section">
+        <h2>📦 Low Stock Vaccines Report</h2>
         {lowStock.length > 0 ? (
           <table className="data-table">
             <thead>
@@ -113,7 +128,6 @@ const Reports = () => {
         ) : (
           <p>All vaccines are adequately stocked</p>
         )}
-      </div>
     </div>
   );
 };

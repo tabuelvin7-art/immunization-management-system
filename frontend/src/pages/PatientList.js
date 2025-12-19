@@ -46,7 +46,12 @@ const PatientList = () => {
     <div>
       <div className="page-header">
         <h1>Patients</h1>
-        <Link to="/patients/new" className="btn btn-primary">Add Patient</Link>
+        <div className="header-actions">
+          <button onClick={() => window.print()} className="btn btn-secondary no-print">
+            🖨️ Print List
+          </button>
+          <Link to="/patients/new" className="btn btn-primary">Add Patient</Link>
+        </div>
       </div>
 
       <div className="card">
