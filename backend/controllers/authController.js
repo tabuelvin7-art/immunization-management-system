@@ -19,6 +19,11 @@ exports.register = async (req, res) => {
 
     const { name, email, password, role } = req.body;
 
+    // Prevent Admin role from being set via registration
+    if (role === 'Admin') {
+      return res.status(403).json({ message: 'Admin accounts cannot be created via registration' });
+    }
+
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
@@ -102,6 +107,11 @@ exports.updateProfile = async (req, res) => {
     }
 
     const { name, email, currentPassword, newPassword } = req.body;
+
+    // Prevent role escalation via profile update
+    if (req.body.role && req.body.role !== user.role) {
+      return res.status(403).json({ message: 'Role cannot be changed via profile update' });
+    }
 
     const user = await User.findById(req.user.id).select('+password');
 

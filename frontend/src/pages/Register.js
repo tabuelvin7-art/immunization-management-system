@@ -90,7 +90,6 @@ const Register = () => {
               <option value="Parent">👨‍👩‍👧‍👦 Parent/Guardian</option>
               <option value="Nurse">👩‍⚕️ Nurse</option>
               <option value="Doctor">👨‍⚕️ Doctor</option>
-              <option value="Admin">⚙️ Administrator</option>
             </select>
           </div>
           <button 

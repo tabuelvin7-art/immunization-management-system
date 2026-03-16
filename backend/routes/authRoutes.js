@@ -16,7 +16,7 @@ router.post('/register', [
     .isLength({ min: 8 }).withMessage('Password must be at least 8 characters')
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)
     .withMessage('Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character (@$!%*?&)'),
-  body('role').isIn(['Admin', 'Nurse', 'Doctor', 'Parent']).withMessage('Invalid role')
+  body('role').isIn(['Nurse', 'Doctor', 'Parent']).withMessage('Invalid role')
 ], register);
 
 router.post('/login', login);
