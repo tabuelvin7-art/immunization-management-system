@@ -38,6 +38,62 @@ const ImmunizationList = () => {
     }
   };
 
+  const handlePrint = () => {
+    const printWindow = window.open('', '_blank');
+
+    const statusColor = (status) => {
+      if (status === 'Completed') return '#27ae60';
+      if (status === 'Overdue') return '#e74c3c';
+      return '#f39c12';
+    };
+
+    const rows = immunizations.map(imm => `
+      <tr>
+        <td>${imm.patient?.name || '-'}</td>
+        <td>${imm.vaccineName}</td>
+        <td>${new Date(imm.dateAdministered).toLocaleDateString()}</td>
+        <td>${imm.nextDueDate ? new Date(imm.nextDueDate).toLocaleDateString() : 'N/A'}</td>
+        <td style="color:${statusColor(imm.status)}; font-weight:bold">${imm.status}</td>
+      </tr>
+    `).join('');
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Immunization Records</title>
+          <style>
+            body { font-family: Arial, sans-serif; font-size: 12pt; color: #000; margin: 0; padding: 1cm; }
+            h1 { font-size: 18pt; text-align: center; margin-bottom: 0.25rem; }
+            .subtitle { text-align: center; font-size: 10pt; color: #555; margin-bottom: 1.5rem; border-bottom: 2px solid #333; padding-bottom: 0.75rem; }
+            table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+            th { background: #f0f0f0; border: 1px solid #333; padding: 0.4rem 0.6rem; text-align: left; font-size: 10pt; }
+            td { border: 1px solid #ccc; padding: 0.4rem 0.6rem; font-size: 10pt; }
+            tr { page-break-inside: avoid; }
+            .empty { color: #777; font-style: italic; }
+            @page { margin: 1cm; }
+          </style>
+        </head>
+        <body>
+          <h1>Immunization Records</h1>
+          <p class="subtitle">Generated on: ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+          ${immunizations.length > 0 ? `
+            <table>
+              <thead>
+                <tr><th>Patient</th><th>Vaccine</th><th>Date Administered</th><th>Next Due Date</th><th>Status</th></tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          ` : '<p class="empty">No immunization records found</p>'}
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => { printWindow.print(); printWindow.close(); }, 500);
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
 
   return (
@@ -45,7 +101,7 @@ const ImmunizationList = () => {
       <div className="page-header">
         <h1>Immunization Records</h1>
         <div className="header-actions">
-          <button onClick={() => window.print()} className="btn btn-secondary no-print">
+          <button onClick={handlePrint} className="btn btn-secondary no-print">
             🖨️ Print Records
           </button>
           {user && ['Doctor', 'Nurse'].includes(user.role) && (

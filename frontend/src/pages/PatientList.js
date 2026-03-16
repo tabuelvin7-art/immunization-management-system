@@ -40,6 +40,55 @@ const PatientList = () => {
     }
   };
 
+  const handlePrint = () => {
+    const printWindow = window.open('', '_blank');
+
+    const rows = patients.map(p => `
+      <tr>
+        <td>${p.name}</td>
+        <td>${new Date(p.dateOfBirth).toLocaleDateString()}</td>
+        <td>${p.gender}</td>
+        <td>${p.contactNumber}</td>
+      </tr>
+    `).join('');
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Patient List</title>
+          <style>
+            body { font-family: Arial, sans-serif; font-size: 12pt; color: #000; margin: 0; padding: 1cm; }
+            h1 { font-size: 18pt; text-align: center; margin-bottom: 0.25rem; }
+            .subtitle { text-align: center; font-size: 10pt; color: #555; margin-bottom: 1.5rem; border-bottom: 2px solid #333; padding-bottom: 0.75rem; }
+            table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+            th { background: #f0f0f0; border: 1px solid #333; padding: 0.4rem 0.6rem; text-align: left; font-size: 10pt; }
+            td { border: 1px solid #ccc; padding: 0.4rem 0.6rem; font-size: 10pt; }
+            tr { page-break-inside: avoid; }
+            .empty { color: #777; font-style: italic; }
+            @page { margin: 1cm; }
+          </style>
+        </head>
+        <body>
+          <h1>Patient List</h1>
+          <p class="subtitle">Generated on: ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+          ${patients.length > 0 ? `
+            <table>
+              <thead>
+                <tr><th>Name</th><th>Date of Birth</th><th>Gender</th><th>Contact</th></tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          ` : '<p class="empty">No patients found</p>'}
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => { printWindow.print(); printWindow.close(); }, 500);
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
 
   return (
@@ -47,7 +96,7 @@ const PatientList = () => {
       <div className="page-header">
         <h1>Patients</h1>
         <div className="header-actions">
-          <button onClick={() => window.print()} className="btn btn-secondary no-print">
+          <button onClick={handlePrint} className="btn btn-secondary no-print">
             🖨️ Print List
           </button>
           <Link to="/patients/new" className="btn btn-primary">Add Patient</Link>
